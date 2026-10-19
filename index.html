@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>传讯</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 主聊天界面 -->
+  <div class="app-container" id="app">
+    <!-- 顶部栏 -->
+    <header class="header">
+      <button id="settingsBtn" class="icon-btn">⚙️</button>
+      <div class="user-info">
+        <img id="headerAvatar" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Felix" alt="头像">
+        <div id="headerName">哥</div>
+      </div>
+      <div class="placeholder"></div>
+    </header>
+
+    <!-- 聊天记录区 -->
+    <main class="chat-body" id="chatBody">
+      <!-- 消息会在这里自动生成 -->
+    </main>
+
+    <!-- 底部输入区 -->
+    <footer class="input-area">
+      <input type="text" id="msgInput" placeholder="iMessage" autocomplete="off">
+      <button id="sendBtn" class="send-btn">↑</button>
+    </footer>
+  </div>
+
+  <!-- 设置面板 -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="settings-header">
+      <h2>设置</h2>
+      <button id="closeSettings" class="icon-btn">✖</button>
+    </div>
+    
+    <div class="settings-content">
+      <h3>外观设置</h3>
+      <label>对方称呼：
+        <input type="text" id="setName" value="哥">
+      </label>
+      
+      <label>对方头像链接：
+        <input type="text" id="setAvatar" value="https://api.dicebear.com/7.x/adventurer/svg?seed=Felix">
+      </label>
+
+      <label>我的气泡颜色：
+        <input type="color" id="setBubbleColor" value="#007aff">
+      </label>
+
+      <label>背景壁纸链接：
+        <input type="text" id="setBg" placeholder="输入图片URL或留空">
+      </label>
+
+      <hr style="border:0; border-top:1px solid #eee; margin: 10px 0;">
+
+      <h3>回复逻辑</h3>
+      <label>回复最短时间（秒）：
+        <input type="number" id="setMinTime" value="15" min="1">
+      </label>
+
+      <label>回复最长时间（秒）：
+        <input type="number" id="setMaxTime" value="30" min="2">
+      </label>
+
+      <label>每次随机回复条数：
+        <input type="number" id="setReplyCount" value="2" min="1" max="5">
+      </label>
+
+      <label>主动发消息间隔（秒，0为关闭）：
+        <input type="number" id="setAutoInterval" value="0" min="0">
+      </label>
+
+      <button id="saveSettings" class="save-btn">保存设置</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
