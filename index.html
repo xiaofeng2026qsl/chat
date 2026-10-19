@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iMessage</title>
+  <link rel="stylesheet" href="style.css" id="mainCss">
+</head>
+<body>
+
+  <!-- 主聊天界面 -->
+  <div class="app-container" id="app">
+    <!-- 顶部导航 -->
+    <header class="header">
+      <button id="settingsBtn" class="icon-btn">⚙️</button>
+      
+      <!-- 点击头像区域进入朋友圈 -->
+      <div class="user-info" id="momentsBtn" style="cursor: pointer;">
+        <img id="headerAvatar" src="" alt="头像">
+        <div id="headerName">哥</div>
+      </div>
+      
+      <!-- 右上角折叠通话按钮 -->
+      <div class="call-actions">
+        <button id="callToggleBtn" class="icon-btn" style="font-size: 22px; transition: transform 0.3s;">📞</button>
+        <div class="call-menu" id="callMenu">
+          <button id="audioCallBtn" class="icon-btn" title="语音通话">📞</button>
+          <button id="videoCallBtn" class="icon-btn" title="视频通话">📹</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 聊天记录区 -->
+    <main class="chat-body" id="chatBody"></main>
+
+    <!-- 底部输入区 -->
+    <footer class="input-area">
+      <button id="addBtn" class="icon-btn" style="font-size: 22px; font-weight: bold;">+</button>
+      <button id="emojiBtn" class="icon-btn" style="font-size: 24px;">😀</button>
+      <input type="text" id="msgInput" placeholder="iMessage" autocomplete="off">
+      <button id="sendBtn" class="send-btn">↑</button>
+    </footer>
+
+    <!-- 表情包弹出面板 -->
+    <div class="emoji-panel" id="emojiPanel">
+      <div class="emoji-list" id="emojiList"></div>
+      <button class="emoji-close" id="closeEmojiPanel">收起</button>
+    </div>
+
+    <!-- 扩展面板 (红包、转账、信箱、问卷) -->
+    <div class="emoji-panel" id="actionPanel" style="height: 160px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; padding: 20px; gap: 15px;">
+        <button class="action-btn" id="btnRedPacket">🧧 红包</button>
+        <button class="action-btn" id="btnTransfer">💸 转账</button>
+        <button class="action-btn" id="btnMailbox">✉️ 信箱</button>
+        <button class="action-btn" id="btnQuiz">📝 问卷</button>
+      </div>
+      <button class="emoji-close" id="closeActionPanel">收起</button>
+    </div>
+  </div>
+
+  <!-- ================= 悬浮弹窗区 ================= -->
+
+  <!-- 朋友圈页面 -->
+  <div class="full-page" id="momentsPage">
+    <header class="header">
+      <button class="icon-btn" onclick="document.getElementById('momentsPage').classList.remove('active')">✖</button>
+      <div style="font-weight: 600;">朋友圈</div>
+      <button class="icon-btn" onclick="document.getElementById('postMomentPanel').classList.add('active')">＋</button>
+    </header>
+    <div class="scroll-content" id="momentsList"></div>
+  </div>
+
+  <!-- 信箱页面 -->
+  <div class="full-page" id="mailboxPage">
+    <header class="header">
+      <button class="icon-btn" onclick="document.getElementById('mailboxPage').classList.remove('active')">✖</button>
+      <div style="font-weight: 600;">信箱</div>
+      <button class="icon-btn" onclick="document.getElementById('writeMailPanel').classList.add('active')">✏️</button>
+    </header>
+    <div class="scroll-content" id="mailList"></div>
+  </div>
+
+  <!-- 问卷页面 -->
+  <div class="full-page" id="quizPage">
+    <header class="header">
+      <button class="icon-btn" onclick="document.getElementById('quizPage').classList.remove('active')">✖</button>
+      <div style="font-weight: 600;">问卷</div>
+      <button class="icon-btn" onclick="document.getElementById('createQuizPanel').classList.add('active')">＋</button>
+    </header>
+    <div class="scroll-content" id="quizList"></div>
+  </div>
+
+  <!-- 设置页面 -->
+  <div class="full-page" id="settingsPage">
+    <header class="header">
+      <button class="icon-btn" onclick="document.getElementById('settingsPage').classList.remove('active')">✖</button>
+      <div style="font-weight: 600;">设置</div>
+      <div style="width: 36px;"></div>
+    </header>
+    <div class="scroll-content" style="padding: 20px; background: #fff;">
+      <h3>外观与身份</h3>
+      <label>对方称呼：<input type="text" id="setName"></label>
+      <label>对方头像上传：<input type="file" id="uploadAvatar" accept="image/*"></label>
+      <label>我的气泡颜色：<input type="color" id="setBubbleColor"></label>
+      <label>背景壁纸上传：<input type="file" id="uploadBg" accept="image/*"></label>
+      
+      <h3 style="margin-top:20px; color: #d9534f;">导入自定义气泡 CSS：</h3>
+      <textarea id="setCustomCss" placeholder=".msg.me { background: pink; border-radius: 0; }" style="height: 80px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;"></textarea>
+      
+      <h3 style="margin-top:20px;">频率控制</h3>
+      <div style="display:flex; gap:10px;">
+        <label style="flex:1;">最短时间(秒)：<input type="number" id="setMinTime"></label>
+        <label style="flex:1;">最长时间(秒)：<input type="number" id="setMaxTime"></label>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <label style="flex:1;">回复最少条数：<input type="number" id="setCountMin"></label>
+        <label style="flex:1;">回复最多条数：<input type="number" id="setCountMax"></label>
+      </div>
+      <label>朋友圈互动概率(%)：<input type="number" id="setMomentProb"></label>
+      <label>回信概率(%)：<input type="number" id="setMailProb"></label>
+      
+      <h3 style="margin-top:20px;">弹药库</h3>
+      <label>字卡导入（每行一句）：</label>
+      <textarea id="setReplyCards" style="height: 100px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;"></textarea>
+      <label>从 txt 文件导入：<input type="file" id="uploadCardFile" accept=".txt"></label>
+      <label>上传表情包（多选）：<input type="file" id="uploadEmojis" accept="image/*" multiple></label>
+      
+      <button id="saveSettings" class="save-btn" style="margin-top: 20px;">保存所有设置</button>
+    </div>
+  </div>
+
+  <!-- 输入弹窗 -->
+  <div class="modal-panel" id="postMomentPanel">
+    <h2>发朋友圈</h2>
+    <textarea id="momentText" placeholder="想说什么..."></textarea>
+    <label>配图：<input type="file" id="momentImage" accept="image/*"></label>
+    <div class="modal-btns">
+      <button onclick="document.getElementById('postMomentPanel').classList.remove('active')">取消</button>
+      <button id="sendMomentBtn" class="primary">发布</button>
+    </div>
+  </div>
+
+  <div class="modal-panel" id="writeMailPanel">
+    <h2>写信给哥</h2>
+    <textarea id="mailContent" style="height: 150px;"></textarea>
+    <div class="modal-btns">
+      <button onclick="document.getElementById('writeMailPanel').classList.remove('active')">取消</button>
+      <button id="sendMailBtn" class="primary">寄出</button>
+    </div>
+  </div>
+
+  <div class="modal-panel" id="createQuizPanel">
+    <h2>出问卷</h2>
+    <input type="text" id="quizQ" placeholder="问题内容">
+    <input type="text" id="quizA" placeholder="选项A">
+    <input type="text" id="quizB" placeholder="选项B">
+    <div class="modal-btns">
+      <button onclick="document.getElementById('createQuizPanel').classList.remove('active')">取消</button>
+      <button id="sendQuizBtn" class="primary">发送</button>
+    </div>
+  </div>
+
+  <div class="modal-panel" id="payFormPanel">
+    <h2 id="payTitle">发红包</h2>
+    <input type="text" id="payAmount" placeholder="金额无上限" value="￥520.00">
+    <input type="text" id="payMsg" placeholder="附言" value="给你买好吃的">
+    <div class="modal-btns">
+      <button onclick="document.getElementById('payFormPanel').classList.remove('active')">取消</button>
+      <button id="sendPayBtn" class="primary">塞进去</button>
+    </div>
+  </div>
+
+  <div class="modal-panel" id="commentPanel">
+    <h2>写评论</h2>
+    <input type="text" id="commentText" placeholder="说点什么...">
+    <div class="modal-btns">
+      <button onclick="document.getElementById('commentPanel').classList.remove('active')">取消</button>
+      <button id="submitCommentBtn" class="primary">发送</button>
+    </div>
+  </div>
+
+  <!-- 通话全屏 -->
+  <div class="call-overlay" id="callOverlay">
+    <div class="call-info">
+      <img id="callAvatar" src="" alt="头像">
+      <h2 id="callName">哥</h2>
+      <p id="callStatus">正在呼叫...</p>
+    </div>
+    <div class="call-buttons"><button id="hangupBtn" class="hangup-btn">挂断</button></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
