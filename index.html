@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>传讯</title>
+  <link rel="stylesheet" href="style.css" id="mainCss">
+</head>
+<body>
+
+  <!-- 1. 主页 -->
+  <div class="page active" id="homePage">
+    <div class="home-time">
+      <h1 id="clock">18:07</h1>
+      <p id="date">TUE · 10.13</p>
+    </div>
+    <div class="home-card">
+      <div class="home-avatars">
+        <div class="avatar-circle">梦</div><div class="heart">♡</div><div class="avatar-circle">我</div>
+      </div>
+      <p class="home-quote">两颗缠绕的心 会走同一条路</p>
+    </div>
+    <div class="home-menu">
+      <div class="menu-item" onclick="switchPage('chatPage')"><div class="menu-icon">💬</div><span>聊天</span></div>
+      <div class="menu-item" onclick="switchPage('momentsPage')"><div class="menu-icon">📷</div><span>朋友圈</span></div>
+      <div class="menu-item" onclick="switchPage('mailboxPage')"><div class="menu-icon">✉️</div><span>信箱</span></div>
+      <div class="menu-item" onclick="switchPage('quizPage')"><div class="menu-icon">📝</div><span>问卷</span></div>
+      <div class="menu-item" onclick="switchPage('settingsPage')"><div class="menu-icon">⚙️</div><span>设置</span></div>
+    </div>
+  </div>
+
+  <!-- 2. 聊天页 -->
+  <div class="page" id="chatPage">
+    <header class="header">
+      <button class="icon-btn" onclick="switchPage('homePage')">＜</button>
+      <div class="user-info">
+        <img id="headerAvatar" src="" alt="头像">
+        <div id="headerName">哥</div>
+      </div>
+      <div class="call-actions">
+        <button id="audioCallBtn" class="icon-btn">📞</button>
+        <button id="videoCallBtn" class="icon-btn">📹</button>
+      </div>
+    </header>
+    <main class="chat-body" id="chatBody"></main>
+    <footer class="input-area">
+      <button id="addBtn" class="icon-btn" style="font-size: 22px; font-weight: bold;">+</button>
+      <button id="emojiBtn" class="icon-btn" style="font-size: 24px;">😀</button>
+      <input type="text" id="msgInput" placeholder="iMessage" autocomplete="off">
+      <button id="sendBtn" class="send-btn">↑</button>
+    </footer>
+    <div class="emoji-panel" id="emojiPanel">
+      <div class="emoji-list" id="emojiList"></div>
+      <button class="emoji-close" id="closeEmojiPanel">收起</button>
+    </div>
+    <div class="emoji-panel" id="actionPanel" style="height: 140px;">
+      <div style="display: flex; padding: 20px; gap: 15px; justify-content: center;">
+        <button class="action-btn" id="btnRedPacket" style="padding: 15px; border-radius: 10px; border: 1px solid #ddd; background: #fff;">🧧 红包</button>
+        <button class="action-btn" id="btnTransfer" style="padding: 15px; border-radius: 10px; border: 1px solid #ddd; background: #fff;">💸 转账</button>
+      </div>
+      <button class="emoji-close" id="closeActionPanel">收起</button>
+    </div>
+  </div>
+
+  <!-- 3. 朋友圈页 -->
+  <div class="page" id="momentsPage">
+    <header class="header">
+      <button class="icon-btn" onclick="switchPage('homePage')">＜</button>
+      <div style="font-weight: 600;">朋友圈</div>
+      <button class="icon-btn" onclick="document.getElementById('postMomentPanel').classList.add('active')">＋</button>
+    </header>
+    <div class="moments-content" id="momentsList"></div>
+  </div>
+
+  <!-- 4. 信箱页 -->
+  <div class="page" id="mailboxPage">
+    <header class="header">
+      <button class="icon-btn" onclick="switchPage('homePage')">＜</button>
+      <div style="font-weight: 600;">信箱</div>
+      <button class="icon-btn" onclick="document.getElementById('writeMailPanel').classList.add('active')">✏️</button>
+    </header>
+    <div class="moments-content" id="mailList"></div>
+  </div>
+
+  <!-- 5. 问卷页 -->
+  <div class="page" id="quizPage">
+    <header class="header">
+      <button class="icon-btn" onclick="switchPage('homePage')">＜</button>
+      <div style="font-weight: 600;">问卷</div>
+      <button class="icon-btn" onclick="document.getElementById('createQuizPanel').classList.add('active')">＋</button>
+    </header>
+    <div class="moments-content" id="quizList"></div>
+  </div>
+
+  <!-- 6. 设置页 -->
+  <div class="page" id="settingsPage">
+    <header class="header">
+      <button class="icon-btn" onclick="switchPage('homePage')">＜</button>
+      <div style="font-weight: 600;">设置</div>
+      <div style="width: 36px;"></div>
+    </header>
+    <div class="settings-content">
+      
+      <h3>外观与身份</h3>
+      <label>对方称呼：<input type="text" id="setName"></label>
+      <label>对方头像上传：<input type="file" id="uploadAvatar" accept="image/*" style="padding: 5px;"></label>
+      <label>我的气泡颜色：<input type="color" id="setBubbleColor"></label>
+      
+      <!-- 改成了直接上传壁纸图片 -->
+      <label style="color: #007aff; font-weight: bold;">背景壁纸上传：
+        <input type="file" id="uploadBg" accept="image/*" style="padding: 5px; border: none;">
+      </label>
+      
+      <label style="color: #d9534f; font-weight: bold; margin-top:10px;">导入自定义气泡 CSS 代码：</label>
+      <textarea id="setCustomCss" placeholder="例如：.msg.me { background: pink; border-radius: 0; }" style="height: 80px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: monospace;"></textarea>
+      
+      <hr style="border:0; border-top:1px solid #eee; margin: 10px 0;">
+      
+      <h3>频率控制</h3>
+      <label>聊天回复最短时间（秒）：<input type="number" id="setMinTime"></label>
+      <label>聊天回复最长时间（秒）：<input type="number" id="setMaxTime"></label>
+      <label>每次回复抽取字卡数量：
+        <div style="display:flex; gap:10px; align-items:center;">
+          <input type="number" id="setCountMin" placeholder="最少" style="width:45%;"> 
+          <span>至</span> 
+          <input type="number" id="setCountMax" placeholder="最多" style="width:45%;">
+        </div>
+      </label>
+      <label>朋友圈互动概率（0-100%）：<input type="number" id="setMomentProb" min="0" max="100"></label>
+      <label>他回复信件的概率（0-100%）：<input type="number" id="setMailProb" min="0" max="100"></label>
+      <label>他主动写新信的概率（0-100%）：<input type="number" id="setAutoMailProb" min="0" max="100"></label>
+      
+      <hr style="border:0; border-top:1px solid #eee; margin: 10px 0;">
+      
+      <h3>字卡与表情弹药库</h3>
+      <label>批量导入字卡（换行分隔）：</label>
+      <textarea id="setReplyCards" style="height: 120px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;"></textarea>
+      <label>从 TXT 文件导入字卡：<input type="file" id="uploadCardFile" accept=".txt" style="padding: 5px;"></label>
+      <label>上传表情包（可多选）：<input type="file" id="uploadEmojis" accept="image/*" multiple style="padding: 5px;"></label>
+      
+      <button id="saveSettings" class="save-btn" style="margin-bottom: 50px;">保存所有设置</button>
+    </div>
+  </div>
+
+  <!-- 弹窗区 -->
+  <div class="settings-panel" id="postMomentPanel">
+    <div class="settings-header"><h2>发朋友圈</h2><button class="icon-btn" onclick="document.getElementById('postMomentPanel').classList.remove('active')">✖</button></div>
+    <div class="settings-content">
+      <label>文字内容：<textarea id="momentText" style="height: 100px; padding: 10px;"></textarea></label>
+      <label>配图（可选）：<input type="file" id="momentImage" accept="image/*" style="padding: 5px;"></label>
+      <button id="sendMomentBtn" class="save-btn">发布</button>
+    </div>
+  </div>
+
+  <div class="settings-panel" id="writeMailPanel">
+    <div class="settings-header"><h2>写信</h2><button class="icon-btn" onclick="document.getElementById('writeMailPanel').classList.remove('active')">✖</button></div>
+    <div class="settings-content">
+      <label>信件内容：<textarea id="mailContent" style="height: 150px; padding: 10px;"></textarea></label>
+      <button id="sendMailBtn" class="save-btn">寄出信件</button>
+    </div>
+  </div>
+
+  <div class="settings-panel" id="createQuizPanel">
+    <div class="settings-header"><h2>出问卷</h2><button class="icon-btn" onclick="document.getElementById('createQuizPanel').classList.remove('active')">✖</button></div>
+    <div class="settings-content">
+      <label>问题内容：<input type="text" id="quizQ"></label>
+      <label>选项A：<input type="text" id="quizA"></label>
+      <label>选项B：<input type="text" id="quizB"></label>
+      <button id="sendQuizBtn" class="save-btn">生成问卷</button>
+    </div>
+  </div>
+
+  <div class="settings-panel" id="payFormPanel">
+    <div class="settings-header"><h2 id="payTitle">发红包</h2><button class="icon-btn" onclick="document.getElementById('payFormPanel').classList.remove('active')">✖</button></div>
+    <div class="settings-content">
+      <label>金额（无上限）：<input type="text" id="payAmount" value="￥520.00"></label>
+      <label>留言/附言：<input type="text" id="payMsg" value="给你买好吃的"></label>
+      <button id="sendPayBtn" class="save-btn">确认发送</button>
+    </div>
+  </div>
+
+  <div class="call-overlay" id="callOverlay">
+    <div class="call-info">
+      <img id="callAvatar" src="" alt="头像">
+      <h2 id="callName">哥</h2>
+      <p id="callStatus">正在呼叫...</p>
+    </div>
+    <div class="call-buttons"><button id="hangupBtn" class="hangup-btn">挂断</button></div>
+  </div>
+
+  <div class="settings-panel" id="commentPanel" style="height: 40%;">
+    <div class="settings-header"><h2>写评论</h2><button class="icon-btn" onclick="document.getElementById('commentPanel').classList.remove('active')">✖</button></div>
+    <div class="settings-content">
+      <input type="text" id="commentText" placeholder="说点什么..." style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;">
+      <button id="submitCommentBtn" class="save-btn">发送</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
