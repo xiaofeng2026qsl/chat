@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>传讯</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 侧边抽屉菜单 (默认隐藏) -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">菜单</div>
+    <div class="sidebar-item" onclick="switchTab('chat')">💬 聊天</div>
+    <div class="sidebar-item" onclick="switchTab('moments')">⭕ 朋友圈</div>
+    <div class="sidebar-item" onclick="switchTab('mail')">✉️ 信箱</div>
+    <div class="sidebar-item" onclick="switchTab('settings')">⚙️ 设置</div>
+  </div>
+  <!-- 侧边栏黑色半透明遮罩 -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- 1. 聊天页 -->
+  <div class="page active" id="page-chat">
+    <header class="header">
+      <div class="left-btn" onclick="toggleSidebar()">＜</div>
+      <div class="user-info">
+        <img id="headerAvatar" src="" alt="头像">
+        <div id="headerName">哥</div>
+      </div>
+      <div class="right-btn"></div> <!-- 占位保持居中 -->
+    </header>
+
+    <main class="chat-body" id="chatBody"></main>
+
+    <footer class="input-area">
+      <input type="text" id="msgInput" placeholder="iMessage" autocomplete="off">
+      <button id="sendBtn" class="send-btn">↑</button>
+    </footer>
+  </div>
+
+  <!-- 2. 朋友圈页 -->
+  <div class="page" id="page-moments">
+    <header class="header">
+      <div class="left-btn" onclick="toggleSidebar()">＜</div>
+      <div class="title">朋友圈</div>
+      <div class="right-btn"></div>
+    </header>
+    <div class="content-body" id="momentsBody">
+      <p style="text-align:center; color:#999; margin-top:50px;">朋友圈功能正在开发中...</p>
+    </div>
+  </div>
+
+  <!-- 3. 信箱页 -->
+  <div class="page" id="page-mail">
+    <header class="header">
+      <div class="left-btn" onclick="toggleSidebar()">＜</div>
+      <div class="title">信箱</div>
+      <div class="right-btn"></div>
+    </header>
+    <div class="content-body" id="mailBody">
+      <p style="text-align:center; color:#999; margin-top:50px;">信箱功能正在开发中...</p>
+    </div>
+  </div>
+
+  <!-- 4. 设置页 -->
+  <div class="page" id="page-settings">
+    <header class="header">
+      <div class="left-btn" onclick="toggleSidebar()">＜</div>
+      <div class="title">设置</div>
+      <div class="right-btn"></div>
+    </header>
+    <div class="settings-content">
+      <h3>基础外观</h3>
+      <label>对方昵称：<input type="text" id="setName"></label>
+      <label>对方头像 (点击上传)：<input type="file" id="setAvatarFile" accept="image/*"></label>
+      <label>聊天背景 (点击上传)：<input type="file" id="setBgFile" accept="image/*"></label>
+
+      <h3>聊天逻辑</h3>
+      <label>回复最短时间 (秒)：<input type="number" id="setMinTime"></label>
+      <label>回复最长时间 (秒)：<input type="number" id="setMaxTime"></label>
+      <label>每次回复条数 (1-100)：<input type="number" id="setReplyCount"></label>
+
+      <button id="saveSettings" class="save-btn">保存并刷新</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
